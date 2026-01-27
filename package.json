@@ -1,7 +1,7 @@
 {
   "name": "elysia-schema-gen",
   "version": "0.0.1",
-  "description":"CLI tool to automatically generate Elysia schemas from class definitions",
+  "description": "CLI tool to automatically generate Elysia schemas from class definitions",
   "type": "module",
   "author": "Naviary Sanctuary",
   "license": "MIT",
@@ -17,17 +17,23 @@
     "type": "git",
     "url": "https://github.com/Naviary-Sanctuary/elysia-schema-gen.git"
   },
-  "bin":{
+  "bin": {
     "elyisa-schema-gen": "./dist/cli.js"
   },
-  "scripts":{
+  "scripts": {
     "build": "bun build ./src/clit.ts --outdir ./dist --target node",
-    "dev": "bun run ./src/cli.ts"
+    "dev": "bun run ./src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "prepare": "husky"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "1.3.6",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "oxfmt": "^0.27.0",
+    "oxlint": "^1.42.0"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   }
 }

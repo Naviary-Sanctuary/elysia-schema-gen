@@ -1,32 +1,39 @@
 {
   "compilerOptions": {
-    "lib": [
-      "ES2021"
-    ],
-    "target": "ES2021",
-    "module": "ES2022",
-    "types": [
-      "@types/bun"
-    ],
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    // Bundler mode
+    "lib": ["ESNext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "types": ["@types/bun"],
+    
+    // Module resolution
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
-    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    
+    // Emit
+    "noEmit": false,
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    
+    // Path mapping
+    "baseUrl": ".",
+    
     // Best practices
     "strict": true,
     "skipLibCheck": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
-    // Some stricter flags (disabled by default)
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false,
-    "baseUrl": ".",
-  }
+    
+    // Decorators
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "tests"]
 }

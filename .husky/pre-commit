@@ -1,0 +1,1 @@
+bun install && bunx lint-staged --verbose && bun run typecheck && bun test
