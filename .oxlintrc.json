@@ -1,0 +1,14 @@
+{
+  "plugins": ["import", "typescript", "oxc", "unicorn"],
+  "rules": {
+    "import/no-duplicates": "warn",
+    "no-console": "warn",
+    "no-unused-vars": [
+      "warn",
+      {
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_"
+      }
+    ]
+  }
+}
