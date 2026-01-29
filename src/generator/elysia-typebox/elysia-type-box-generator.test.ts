@@ -278,9 +278,9 @@ describe('ElysiaTypeBoxGenerator Test', () => {
     });
 
     describe('union types', () => {
-      test('should generate string literal union type', () => {
+      test('should generate UnionEnum for string literal union', () => {
         const parsedClass: ParsedClass = {
-          name: 'User',
+          name: 'Test',
           filePath: 'test.ts',
           isExported: true,
           properties: [
@@ -291,15 +291,9 @@ describe('ElysiaTypeBoxGenerator Test', () => {
                 types: [
                   { kind: 'literal', value: 'active' },
                   { kind: 'literal', value: 'inactive' },
+                  { kind: 'literal', value: 'pending' },
                 ],
               },
-              isOptional: false,
-              isReadonly: false,
-              hasDefaultValue: false,
-            },
-            {
-              name: 'id',
-              type: { kind: 'primitive', type: 'string' },
               isOptional: false,
               isReadonly: false,
               hasDefaultValue: false,
@@ -308,12 +302,12 @@ describe('ElysiaTypeBoxGenerator Test', () => {
         };
 
         const result = generator.generate(parsedClass);
-        expect(result).toContain("t.Union([t.Literal('active'), t.Literal('inactive')])");
+        expect(result).toContain("status: t.UnionEnum(['active', 'inactive', 'pending'])");
       });
 
-      test('should generate number literal union type', () => {
+      test('should generate UnionEnum for number literal union', () => {
         const parsedClass: ParsedClass = {
-          name: 'User',
+          name: 'Test',
           filePath: 'test.ts',
           isExported: true,
           properties: [
@@ -335,7 +329,85 @@ describe('ElysiaTypeBoxGenerator Test', () => {
         };
 
         const result = generator.generate(parsedClass);
-        expect(result).toContain('t.Union([t.Literal(1), t.Literal(2), t.Literal(3)])');
+        expect(result).toContain('priority: t.UnionEnum([1, 2, 3])');
+      });
+
+      test('should generate regular Union for mixed literal types', () => {
+        const parsedClass: ParsedClass = {
+          name: 'Test',
+          filePath: 'test.ts',
+          isExported: true,
+          properties: [
+            {
+              name: 'value',
+              type: {
+                kind: 'union',
+                types: [
+                  { kind: 'literal', value: 'text' },
+                  { kind: 'literal', value: 123 },
+                ],
+              },
+              isOptional: false,
+              isReadonly: false,
+              hasDefaultValue: false,
+            },
+          ],
+        };
+
+        const result = generator.generate(parsedClass);
+        expect(result).toContain("value: t.Union([t.Literal('text'), t.Literal(123)])");
+      });
+
+      test('should generate regular Union for non-literal types', () => {
+        const parsedClass: ParsedClass = {
+          name: 'Test',
+          filePath: 'test.ts',
+          isExported: true,
+          properties: [
+            {
+              name: 'value',
+              type: {
+                kind: 'union',
+                types: [
+                  { kind: 'primitive', type: 'string' },
+                  { kind: 'primitive', type: 'number' },
+                ],
+              },
+              isOptional: false,
+              isReadonly: false,
+              hasDefaultValue: false,
+            },
+          ],
+        };
+
+        const result = generator.generate(parsedClass);
+        expect(result).toContain('value: t.Union([t.String(), t.Number()])');
+      });
+
+      test('should generate regular Union when mixing literals and non-literals', () => {
+        const parsedClass: ParsedClass = {
+          name: 'Test',
+          filePath: 'test.ts',
+          isExported: true,
+          properties: [
+            {
+              name: 'value',
+              type: {
+                kind: 'union',
+                types: [
+                  { kind: 'literal', value: 'fixed' },
+                  { kind: 'primitive', type: 'string' },
+                ],
+              },
+              isOptional: false,
+              isReadonly: false,
+              hasDefaultValue: false,
+            },
+          ],
+        };
+
+        const result = generator.generate(parsedClass);
+        expect(result).toContain("value: t.Union([t.Literal('fixed'), t.String()])");
       });
     });
 
