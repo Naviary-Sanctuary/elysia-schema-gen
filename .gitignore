@@ -2,5 +2,6 @@
 node_modules/
 dist/
 
-# config file
+# tests
 **/schema-gen.config.json
+schemas/

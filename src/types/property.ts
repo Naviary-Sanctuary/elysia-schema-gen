@@ -30,7 +30,7 @@ export type PropertyType = PrimitiveType | ArrayType | ObjectType | UnionType | 
  */
 export interface PrimitiveType {
   kind: 'primitive';
-  type: 'string' | 'number' | 'boolean' | 'Date';
+  type: 'string' | 'number' | 'boolean' | 'Date' | 'null' | 'undefined' | 'any';
 }
 
 /**

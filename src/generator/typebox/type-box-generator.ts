@@ -163,7 +163,7 @@ export class TypeBoxGenerator implements SchemaGenerator {
    * generatePrimitiveType('Date')    → 't.Date()'
    * ```
    */
-  private generatePrimitiveType(type: 'string' | 'number' | 'boolean' | 'Date'): string {
+  private generatePrimitiveType(type: 'string' | 'number' | 'boolean' | 'Date' | 'null' | 'undefined' | 'any'): string {
     switch (type) {
       case 'string':
         return 't.String()';
@@ -173,6 +173,12 @@ export class TypeBoxGenerator implements SchemaGenerator {
         return 't.Boolean()';
       case 'Date':
         return 't.Date()';
+      case 'null':
+        return 't.Null()';
+      case 'undefined':
+        return 't.Undefined()';
+      case 'any':
+        return 't.Any()';
       default:
         const _exhaustive: never = type;
         throw new Error(`Unsupported primitive type: ${JSON.stringify(_exhaustive)}`);

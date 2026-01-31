@@ -23,8 +23,10 @@ import type { ParsedClass, Property, PropertyType } from '../types';
 export class Parser {
   private readonly project: Project;
 
-  constructor() {
-    this.project = new Project();
+  constructor(config?: { tsConfigPath?: string }) {
+    this.project = new Project({
+      tsConfigFilePath: config?.tsConfigPath ?? 'tsconfig.json',
+    });
   }
 
   /**
@@ -53,6 +55,12 @@ export class Parser {
    */
   parseFile(filePath: string): ParsedClass[] {
     const sourceFile = this.project.addSourceFileAtPath(filePath);
+    sourceFile.getReferencedSourceFiles().forEach((ref) => {
+      if (!this.project.getSourceFile(ref.getFilePath())) {
+        this.project.addSourceFileAtPath(ref.getFilePath());
+      }
+    });
+
     const classes = sourceFile.getClasses();
 
     return classes
@@ -110,7 +118,29 @@ export class Parser {
    * @returns Parsed property type
    */
   private parsePropertyType(type: Type): PropertyType {
+    const aliasSymbol = type.getAliasSymbol();
+    if (aliasSymbol) {
+      const compilerSymbol = aliasSymbol.compilerSymbol as any;
+
+      if (compilerSymbol.links?.declaredType) {
+        const declaredType = compilerSymbol.links.declaredType;
+        const context = (type as any)._context;
+        const wrappedType = context.compilerFactory.getType(declaredType);
+
+        return this.parsePropertyType(wrappedType);
+      }
+    }
+
     // #region Check Primitive types
+    if (type.isAny()) {
+      return { kind: 'primitive', type: 'any' };
+    }
+    if (type.isNull()) {
+      return { kind: 'primitive', type: 'null' };
+    }
+    if (type.isUndefined()) {
+      return { kind: 'primitive', type: 'undefined' };
+    }
     if (type.isString()) {
       return { kind: 'primitive', type: 'string' };
     }

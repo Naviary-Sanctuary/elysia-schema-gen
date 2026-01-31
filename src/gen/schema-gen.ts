@@ -12,7 +12,7 @@ export class SchemaGen {
   constructor(config: Config, options: SchemaGenOptions = {}) {
     this.config = config;
     this.options = options;
-    this.parser = new Parser();
+    this.parser = new Parser({ tsConfigPath: config.tsConfigPath });
     this.generator = this.createGenerator();
   }
 

@@ -48,6 +48,8 @@ export interface MappingRule {
  * Main configuration object
  */
 export interface Config {
+  /** Path to tsconfig.json file */
+  tsConfigPath?: string;
   /**
    * Mapping rules
    *
