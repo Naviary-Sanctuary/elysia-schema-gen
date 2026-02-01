@@ -1,7 +1,7 @@
 {
-  "name": "schema-gen",
+  "name": "@naviary-sanctuary/schema-gen",
   "version": "0.1.0",
-  "description": "Automatically generate schemas from TypeScript class definitions",
+  "description": "Automatically generate validation schemas from TypeScript class definitions",
   "type": "module",
   "author": "Naviary Sanctuary",
   "license": "MIT",
