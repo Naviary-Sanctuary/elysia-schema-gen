@@ -71,7 +71,9 @@ cli
 
 // #region Help and Version
 cli.help();
-cli.version('0.1.0');
+
+import packageJson from '../package.json';
+cli.version(packageJson.version);
 // #endregion
 
 cli.parse();
