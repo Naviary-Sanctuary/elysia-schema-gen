@@ -14,18 +14,11 @@ ARCH="$(uname -m)"
 # Determine binary name
 case "$OS" in
   Darwin)
-    case "$ARCH" in
-      arm64)
-        BINARY="schema-gen-macos-arm64"
-        ;;
-      x86_64)
-        BINARY="schema-gen-macos-x64"
-        ;;
-      *)
-        echo -e "${RED}Unsupported architecture: $ARCH${NC}"
-        exit 1
-        ;;
-    esac
+    # All macOS users get ARM64 binary (Intel Macs use via Rosetta 2)
+    BINARY="schema-gen-macos-arm64"
+    if [ "$ARCH" = "x86_64" ]; then
+      echo -e "${YELLOW}Note: Intel Mac detected. Using ARM64 binary via Rosetta 2.${NC}"
+    fi
     ;;
   Linux)
     case "$ARCH" in
@@ -34,6 +27,7 @@ case "$OS" in
         ;;
       *)
         echo -e "${RED}Unsupported architecture: $ARCH${NC}"
+        echo "Only x86_64 (amd64) is supported on Linux"
         exit 1
         ;;
     esac
@@ -63,7 +57,7 @@ fi
 # Make executable
 chmod +x "$TEMP_FILE"
 
-# Install to /usr/local/bin or ~/bin
+# Install to /usr/local/bin
 INSTALL_DIR="/usr/local/bin"
 if [ -w "$INSTALL_DIR" ]; then
   mv "$TEMP_FILE" "$INSTALL_DIR/schema-gen"

@@ -28,27 +28,6 @@ jobs:
           name: schema-gen-macos-arm64
           path: schema-gen-macos-arm64
 
-  build-macos-x64:
-    runs-on: macos-13 # Intel Mac
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v1
-        with:
-          bun-version: latest
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Build binary
-        run: bun build --compile ./src/cli.ts --outfile schema-gen-macos-x64
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: schema-gen-macos-x64
-          path: schema-gen-macos-x64
-
   build-linux-x64:
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +50,7 @@ jobs:
           path: schema-gen-linux-x64
 
   create-release:
-    needs: [build-macos-arm64, build-macos-x64, build-linux-x64]
+    needs: [build-macos-arm64, build-linux-x64]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/')
     permissions:
@@ -85,7 +64,6 @@ jobs:
         with:
           files: |
             schema-gen-macos-arm64/schema-gen-macos-arm64
-            schema-gen-macos-x64/schema-gen-macos-x64
             schema-gen-linux-x64/schema-gen-linux-x64
           generate_release_notes: true
         env:
