@@ -52,16 +52,12 @@ brew tap Naviary-Sanctuary/schema-gen
 brew install schema-gen
 ```
 
-### npm (Node.js)
-
-```bash
-npm install -g schema-gen
-```
-
 ### Bun
 
+This package requires Bun runtime. It will not work with npm/node.
+
 ```bash
-bun install -g schema-gen
+bun install -g @naviary-sanctuary/schema-gen
 ```
 
 ### Quick Install Script

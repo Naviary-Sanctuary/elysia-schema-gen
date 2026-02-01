@@ -25,7 +25,8 @@
   },
   "homepage": "https://github.com/Naviary-Sanctuary/schema-gen#readme",
   "engines": {
-    "bun": ">=1.0.0"
+    "bun": ">=1.0.0",
+    "node": "NOT_SUPPORTED"
   },
   "bin": {
     "schema-gen": "./dist/cli.js"
